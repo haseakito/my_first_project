@@ -1,9 +1,13 @@
+import sqlite3
+
 from flask import Flask
-from flask import render_template, url_for, request, redirect, flash
+from flask import render_template, url_for, request, redirect, flash, make_response, session
 from email_validator import validate_email, EmailNotValidError
 from flask_mail import Mail, Message
 import logging
 import os
+
+import database
 
 app = Flask(__name__)
 
@@ -20,24 +24,50 @@ app.config["MAIL_DEFAULT_SENDER"] = os.environ.get("MAIL_DEFAULT_SENDER")
 
 mail = Mail(app)
 
+db = database.create_table()
+DATABASE = 'database.db'
 @app.route('/')
 def index():
-    game = [
-        {
-            "title" : "COD BO2",
-            "price" : 8000,
-            "description" : "This game is soo fun"
-        },
-        {
-            "title": "OverWatch2",
-            "price": 5000,
-            "description": "This game is way better than COD"
-        }
-    ]
+
+    connect = sqlite3.connect(DATABASE)
+    db_table = connect.execute("SELECT * FROM games").fetchall()
+    connect.close()
+
+    games = []
+    for row in db_table:
+        games.append({'title' : row[0],
+                      'price' : row[1],
+                      'description' : row[2],
+                      'link' : row[3]})
+
     return render_template(
         'index.html',
-        games = game
+        games = games
     )
+
+@app.route('/register')
+def register():
+    response = make_response(render_template('register_game.html'))
+
+    response.set_cookie("flaskbook key", "flaskbook value")
+
+    session["username"] = "who cares?"
+
+    return response
+@app.route('/register', methods = ['POST'])
+def register_game():
+    title = request.form['title']
+    price = request.form['price']
+    description = request.form['description']
+    link = request.form['link']
+
+    connect = sqlite3.connect(DATABASE)
+    connect.execute('INSERT INTO games VALUES (?, ?, ?, ?)',
+                    [title, price, description, link])
+    connect.commit()
+    connect.close()
+
+    return redirect(url_for("index"))
 
 @app.route('/form')
 def form():
@@ -46,6 +76,7 @@ def form():
 @app.route('/form/complete', methods = ["GET", "POST"])
 def form_complete():
     if request.method == "POST":
+
         #form属性を使って、フォームの値を取得
         username = request.form["username"]
         email = request.form["email"]

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>register_game</title>
+</head>
+<body>
+
+<h1>Game</h1>
+<form method="post" action="{{ url_for('register_game') }}">
+    <table border="1">
+    <tr>
+      <th>Title</th>
+      <th>Price</th>
+      <th>Description</th>
+      <th>Link</th>
+    </tr>
+
+    <tr>
+      <td><input type="text" name="title" placeholder="title"></td>
+      <td><input type="text" name="price" placeholder="price"></td>
+      <td><input type="text" name="description" placeholder="description"></td>
+      <td><input type="text" name="link" placeholder="link"></td>
+    </tr>
+</table>
+  <br>
+  <input type="submit" value="register">
+</form>
+</body>
+</html>
