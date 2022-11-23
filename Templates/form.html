@@ -10,7 +10,7 @@
 <h3>Enquiry form</h3>
 
 {% with messages = get_flashed_messages() %}
-{if message %}
+{% if messages %}
 <ul>
     {% for message in messages %}
     <li class="flash">{{ message }}</li>
@@ -31,7 +31,6 @@
                 <input
                         type = "text"
                         name = "username"
-                        value = "username"
                         placeholder="username"
                 />
             </td>
@@ -42,7 +41,6 @@
                 <input
                         type="text"
                         name="email"
-                        value="email"
                         placeholder="email address"
                 />
             </td>
@@ -54,7 +52,7 @@
                         name="description"
                         rows="4"
                         cols="50"
-                        placeholder="details of enquiry">Thank you for your time and efforts.
+                        placeholder="details of enquiry">
                 </textarea>
             </td>
         </tr>

@@ -1,0 +1,8 @@
+Dear {{ username }}
+
+Thank you very much for using our service and sending us an enquiry.
+Your opinion matters to us!
+
+Below is the detail of your enquiry.
+
+{{ description }}
