@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gamer_Helper</title>
+
+</head>
+<body>
+<header> Welcome to Crazy Gamer </header>
+<main>
+    <h3>Welcome to Crazy Gamer </h3>
+    <p>This website is designed for passionate gamers constantly looking new games</p>
+    <h5>The primary functions of this website</h5>
+    <p>This website provides a list of popular games from Rakuten</p>
+
+    <p>New Games in sale...</p>
+    {% if games == [] %}
+    <p>"No Game released yet"</p>
+    {% else %}
+    <table border="1">
+        <tr>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Description</th>
+        </tr>
+        {% for game in games %}
+        <tr>
+            <td>{{ game.title }}</td>
+            <td>{{ game.price }}円</td>
+            <td>{{ game.description }}</td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+
+    <a href = "{{url_for('form')}}">Enquiry</a>
+    </table>
+</main>
+</body>
+</html>
