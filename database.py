@@ -17,7 +17,8 @@ def get_table():
 
     return connect.execute(get)
 
-def add_table(self, title, price, description, link):
+def add_table(title, price, description, link):
 
-    self.connect.execute('INSERT INTO games VALUES (?, ?, ?, ?)', [title, price, description, link])
-    self.connect.commit()
+    connect = sqlite3.connect(DATABASE)
+    connect.execute('INSERT INTO games VALUES (?, ?, ?, ?)', [title, price, description, link])
+    connect.commit()
